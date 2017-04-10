@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:context="http://www.springframework.org/schema/context"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+             http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+             http://www.springframework.org/schema/security
+             http://www.springframework.org/schema/security/spring-security-3.1.xsd   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+    <http auto-config="true" use-expressions="true">
+        <form-login login-processing-url="/login" login-page="/loginpage"
+                    authentication-failure-url="/loginpage?error=t" default-target-url="/"
+                    authentication-success-handler-ref="customAuthenticationSuccessHandler"/>
+        <logout logout-url="/logout" invalidate-session="false" success-handler-ref="customLogoutSuccessHandler"/>
+
+        <http-basic/>
+        <logout logout-url="/logout" invalidate-session="true" delete-cookies="true" logout-success-url="/login"/>
+        <intercept-url pattern="/login" access="permitAll"/>
+        <intercept-url pattern="/logout" access="permitAll"/>
+        <intercept-url pattern="/loginpage" access="permitAll"/>
+
+        <intercept-url pattern="/resources/js/**" access="isFullyAuthenticated()"/>
+        <intercept-url pattern="/resources/**" access="permitAll"/>
+        <intercept-url pattern="/role" access="isFullyAuthenticated()"/>
+        <intercept-url pattern="/group" access="isFullyAuthenticated()"/>
+        <intercept-url pattern="/user" access="isFullyAuthenticated()"/>
+        <intercept-url pattern="/api/user/menu" access="isFullyAuthenticated()"/>
+        <intercept-url pattern="/api/user/loggedUser" access="isFullyAuthenticated()"/>
+
+        <intercept-url pattern="/api/user/**" access="hasAnyRole('USER_READ','USER_WRITE')" method="GET"/>
+        <intercept-url pattern="/api/user/**" access="hasRole('USER_WRITE')"/>
+
+        <intercept-url pattern="/api/role/**" access="hasAnyRole('ROLE_READ','ROLE_WRITE')" method="GET"/>
+        <intercept-url pattern="/api/role/**" access="hasRole('ROLE_WRITE')"/>
+
+        <intercept-url pattern="/api/group/**" access="hasAnyRole('GROUP_READ','GROUP_WRITE')" method="GET"/>
+        <intercept-url pattern="/api/group/**" access="hasRole('GROUP_WRITE')"/>
+
+        <intercept-url pattern="/api/bulletinBoard/current" access="isFullyAuthenticated()"
+                       method="GET"/>
+
+        <intercept-url pattern="/api/userActivity/**"
+                       access="hasRole('USER_ACTIVITY_READ')"
+                       method="GET"/>
+
+        <intercept-url pattern="/" access="isFullyAuthenticated()"/>
+        <intercept-url pattern="/**" access="isFullyAuthenticated()"/>
+
+
+    </http>
+    <context:component-scan base-package="id.go.depdagri.adminduk.listener"/>
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider ref="daoAuthenticationProvider"/>
+    </authentication-manager>
+
+    <beans:bean class="org.springframework.security.authentication.encoding.ShaPasswordEncoder" id="passwordEncoder"/>
+    <beans:bean class="org.springframework.security.authentication.dao.ReflectionSaltSource" id="saltSource">
+        <beans:property name="userPropertyToUse" value="salt"/>
+    </beans:bean>
+
+    <beans:bean id="daoAuthenticationProvider"
+                class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+        <beans:property name="userDetailsService" ref="securityService"/>
+        <beans:property name="passwordEncoder" ref="passwordEncoder"/>
+        <beans:property name="saltSource" ref="saltSource"/>
+    </beans:bean>
+
+</beans:beans>

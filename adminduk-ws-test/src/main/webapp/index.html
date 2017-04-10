@@ -1,0 +1,127 @@
+<!doctype html>
+<html class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <title>Webservice Client</title>
+    <meta name="description" content="">
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+        <!--<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css">-->
+        <style>
+/*
+            .navbar-inverse {
+                background-color: #001dff;
+            }
+*/
+            .navbar-header { 
+                height: 60px;
+            }
+        </style>
+  </head>
+  <body ng-app="admindukWsTestApp">
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <!-- Add your site or application content here -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+
+        <div class="navbar-header">
+          <a href="./" class="navbar-brand">
+              <img src="images/logo.png" style="height: 40px; width: 40px" />
+              <img src="images/kemensetneg.png" style="height: 40px; width: 40px" />
+              Aplikasi Pencarian Data Kependudukan
+          </a>
+          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+          <div class="collapse navbar-collapse" id="collapsible-navbar">
+            <ul class="nav navbar-nav pull-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Profile <span class="caret"></span></a>
+                      <ul class="dropdown-menu" role="menu">
+                        <li><a data-toggle="modal" data-target="#changePassword">Change Password</a></li>
+                        <li><a href="logout">Keluar</a></li>
+                      </ul>
+                </li>
+            </ul>
+        </div><!--/.navbar-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+      <div style="margin-top:40px; padding:30px" ng-view>
+      </div>
+    </div>
+      
+      <div ng-controller = "MainCtrl" class="modal fade" id="changePassword">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Change Password</h4>
+              </div>
+              <div class="modal-body text-center">
+                <form name="formChangePassword" id="formChangePassword"> 
+                <div class="form-horizontal">         
+                  <div class="form-group" ng-class="{'has-error':formChangePassword.old_password.$invalid, 'has-success':formChangePassword.old_password.$valid}">
+                      <div class="col-sm-8">
+                         <input type="password" ng-model = "old_password" name="old_password" class="form-control" placeholder="Old Password" required>
+                          <span style="float:right; color:white" class="help-block label label-danger" ng-show="formChangePassword.old_password.$error.required">This Field is Required</span>
+                      </div>
+                    </div>
+
+                  <div class="form-group" ng-class="{'has-error':formChangePassword.new_password.$invalid, 'has-success':formChangePassword.new_password.$valid}">
+                      <div class="col-sm-8">
+                         <input type="password" ng-model = "new_password" name="new_password" class="form-control" placeholder="New Password" ng-keyup="matchPassword()" required>
+                          <span style="float:right; color:white" class="help-block label label-danger" ng-show="formChangePassword.new_password.$error.required">This Field is Required</span>
+                      </div>
+                    </div>
+
+                  <div class="form-group" ng-class="{'has-error':formChangePassword.confirm_password.$invalid, 'has-success':formChangePassword.confirm_password.$valid}">
+                      <div class="col-sm-8">
+                        <input type="password" ng-model = "confirm_password" name="confirm_password" class="form-control" placeholder="Confirm Password" id="confirm_password" ng-keyup="matchPassword()" required >
+                          <span style="float:right; color:white" class="help-block label label-danger" ng-show="formChangePassword.confirm_password.$error.required">This Field is Required</span>
+                          <span style="float:right; color:white" class="help-block label label-danger" ng-show="errorMatchPassword">Passwords don't match</span>
+                      </div>
+                  </div>
+                </div>                
+              </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" ng-disabled="formChangePassword.$invalid || new_password != confirm_password" ng-click="changePass()">Save changes</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <!--<script src="bower_components/json3/lib/json3.js"></script>-->
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/bootbox/bootbox.js"></script>
+
+    
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/app.js"></script>
+    <script src="scripts/services/mainservice.js"></script>
+    <script src="scripts/controllers/main.js"></script>
+    <!-- endbuild -->
+</body>
+</html>

@@ -1,0 +1,60 @@
+body {
+    /*padding-top: 180px; *//* 60px to make the container go all the way to the bottom of the topbar */
+    background-color: #EFEFEF
+}
+
+.rima-absolute {
+    position: absolute;
+    z-index: 1000
+}
+
+label.valid {
+    width: 24px;
+    height: 24px;
+    background: url(../img/validasi/valid.png) center center no-repeat;
+    display: inline-block;
+    text-indent: -9999px;
+}
+
+label.error {
+    font-weight: bold;
+    color: red;
+    padding: 2px 8px;
+    margin-top: 2px;
+}
+
+#li-center li {
+    text-align: center;
+
+    margin: 1px;
+
+}
+
+#li-center a {
+    color: #000000;
+    opacity: 0.6
+}
+
+#li-center a:hover {
+    color: white;
+    opacity: 1
+}
+
+#brand {
+    text-shadow: 5px -3px 2px grey;
+    font-size: 47px;
+    font-family: arial;
+    color: #ffffff;
+}
+
+#navbar-info {
+    border-radius: 5px
+}
+
+#black a {
+    color: #000000;
+}
+
+#black a:hover {
+    color: white;
+}

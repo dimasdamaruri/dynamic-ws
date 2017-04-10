@@ -1,0 +1,86 @@
+[class^="icon-"],
+[class*=" icon-"] {
+    background-repeat: no-repeat;
+    width: 48px;
+    height: 48px;
+    content: "";
+    position: absolute;
+    left: 0;
+    margin-top: 3px;
+}
+
+.icon-modul-dashboard {
+    background-image: url("../icon/icon-modul-dashboard.png");
+}
+
+.icon-dashboard {
+    background-image: url("../icon/icon_dashboard.png");
+}
+
+.icon-users {
+    background-image: url("../icon/icon_users.png");
+}
+
+.icon-user {
+    background-image: url("../icon/icon_user.png");
+}
+
+.icon-board {
+    background-image: url("../icon/icon-board.png");
+}
+
+.icon-buatbaru {
+    background-image: url("../icon/icon-buatbaru.png");
+}
+
+.icon-daftarlapor {
+    background-image: url("../icon/icon-daftarlapor.png");
+}
+
+.icon-kriteria {
+    background-image: url("../icon/icon-kriteria.png");
+}
+
+.icon-lihat {
+    background-image: url("../icon/icon-lihat.png");
+}
+
+.icon-matriks {
+    background-image: url("../icon/icon-matriks.png");
+}
+
+.icon-organisasi {
+    background-image: url("../icon/icon-organisasi.png");
+}
+
+.icon-security {
+    background-image: url("../icon/icon-security.png");
+}
+
+.icon-taxonomy {
+    background-image: url("../icon/icon-taxonomy.png");
+}
+
+.icon-monitorpjbg {
+    background-image: url("../icon/icon-monitorpjbg.png");
+}
+
+.icon-gasin {
+    background-image: url("../icon/icon-gasin.png");
+}
+
+.icon-changestatus {
+    background-image: url("../icon/icon_changestatus.gif");
+}
+
+.icon-save {
+    background-image: url("../icon/icon_save.gif");
+}
+
+.icon-print {
+    background-image: url("../icon/icon_print.gif");
+}
+
+.icon-search {
+    background-image: url("../icon/icon-search.png");
+}

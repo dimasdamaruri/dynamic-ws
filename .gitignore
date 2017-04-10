@@ -1,47 +1,88 @@
-# Windows image file caches
-Thumbs.db
-ehthumbs.db
+logs
 
-# Folder config file
-Desktop.ini
+# Eclipse Setting
+/.metadata
+/Servers
+.settings
+.project
+.classpath
+.buildpath
+RemoteSystemsTempFiles
+bin
+org.eclipse.jdt.core.prefs
 
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
+# Maven
+target
 
-# Windows Installer files
-*.cab
-*.msi
-*.msm
-*.msp
+# Netbeans Ignore
+nbproject
+build
+private
 
-# Windows shortcuts
-*.lnk
+#idea project
+.idea
+*.iml
+*.iws
+*.ipr
 
-# =========================
-# Operating System Files
-# =========================
+Crystal/
+example
 
-# OSX
-# =========================
+#database
+#pom.xml
+#/batubara-online-core/src/main/resources/jdbc.properties
 
-.DS_Store
-.AppleDouble
-.LSOverride
+# Maven #
+target
 
-# Thumbnails
-._*
+########################
+# sails
+########################
+.sails
+.waterline
+.rigging
+.tmp
 
-# Files that might appear in the root of a volume
-.DocumentRevisions-V100
-.fseventsd
-.Spotlight-V100
-.TemporaryItems
-.Trashes
-.VolumeIcon.icns
 
-# Directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
+########################
+# node.js / npm
+########################
+lib-cov
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+
+pids
+logs
+results
+
+node_modules
+
+npm-debug.log
+
+
+########################
+# misc / editors
+########################
+*~
+*#
+.DS_STORE
+.netbeans
+nbproject
+.idea
+
+
+########################
+# local config
+########################
+config/local.js
+
+
+########################
+# client side apps
+########################
+.sass-cache

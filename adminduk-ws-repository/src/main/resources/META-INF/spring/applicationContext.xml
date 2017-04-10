@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.0.xsd">
+
+
+    
+    <beans profile="local">
+        <bean id="databaseProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean"
+              p:location="classpath:jdbcLocal.properties"/>
+    </beans>
+
+
+    <beans profile="repository">
+        <bean id="applicationContextProvider" class="id.go.depdagri.adminduk.api.util.ApplicationContextProvider"></bean>
+
+        <jpa:repositories base-package="id.go.depdagri.adminduk.api.repository"/>
+
+        <context:component-scan base-package="id.go.depdagri.adminduk.api.service"/>
+
+            <context:property-placeholder properties-ref="databaseProperties"/>
+
+
+            <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+              destroy-method="close" 
+              p:driverClassName="${jdbc.driver}" 
+              p:url="${jdbc.url}"
+              p:username="${jdbc.username}" 
+              p:password="${jdbc.password}" 
+              p:maxWait="40000"
+              p:maxActive="80" 
+              p:maxIdle="20"
+              p:minIdle="10"
+              p:testOnBorrow="true"
+              p:validationQuery="SELECT 1 from dual"/>
+
+
+            <bean id="transactionManager"
+              class="org.springframework.orm.jpa.JpaTransactionManager"
+              p:entityManagerFactory-ref="entityManager"/>
+
+            <bean id="entityManager" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+              p:dataSource-ref="dataSource">
+                <property name="packagesToScan" value="id.go.depdagri.adminduk.api.domain"/>
+                <property name="jpaVendorAdapter">
+                    <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+                </property>
+                <property name="jpaProperties">
+                    <props>
+                        <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                        <prop key="hibernate.show_sql">true</prop>
+                        <prop key="hibernate.format_sql">true</prop>
+                        <prop key="hibernate.hbm2ddl.auto">update</prop>
+                    </props>
+                </property>
+            </bean>
+
+            <tx:annotation-driven/>
+
+            <bean id="messageSource"
+              class="org.springframework.context.support.ResourceBundleMessageSource">
+                <property name="basenames">
+                    <list>
+                        <value>messages</value>
+                    </list>
+                </property>
+            </bean>
+    </beans>
+
+    <beans profile="restTemplate">
+        <!--setting rest template-->
+        <!-- Credentials provider needed by apache default http client -->
+        <bean id="credentialProvider" class="org.apache.http.impl.client.BasicCredentialsProvider"/>
+
+        <!-- Used to invoke a method in BasicCredentialsProvider.  This has to be done this way as BasicCredentialsProvider does not take
+        provider and credentials in constructor or setter method.  It has to set by invoking setCredentials() method and passing two arguments -->
+        <bean id="methodInvoke" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+            <property name="targetObject">
+                <ref local="credentialProvider"/>
+            </property>
+            <property name="targetMethod" value="setCredentials"/>
+            <property name="arguments">
+                <list>
+                    <ref local="authScope"/>
+                    <ref local="credentials"/>
+                </list>
+            </property>
+        </bean>
+
+        <!-- Authorization scope for accessing restful service.  Since we want this template to be used for everything, we are setting up it with defaults -->
+        <bean id="authScope" class="org.apache.http.auth.AuthScope">
+            <constructor-arg name="host">
+                <null/>
+            </constructor-arg>
+            <constructor-arg>
+                <value>-1</value>
+            </constructor-arg>
+            <constructor-arg>
+                <null/>
+            </constructor-arg>
+            <constructor-arg>
+                <null/>
+            </constructor-arg>
+        </bean>
+
+        <!-- Username and Password Credentials to access restful service -->
+        <bean id="credentials" class="org.apache.http.auth.UsernamePasswordCredentials">
+            <constructor-arg name="userName" value="username"/>
+            <constructor-arg name="password" value="password"/>
+        </bean>
+
+        <!-- Client factory which uses Apache HttpClient implementation.  Note that it DO NOT use apache commons httpclient -->
+        <bean id="httpClientFactory" class="org.springframework.http.client.HttpComponentsClientHttpRequestFactory">
+            <constructor-arg ref="httpClient"/>
+        </bean>
+
+        <bean id="httpClient" class="org.apache.http.impl.client.DefaultHttpClient">
+            <property name="credentialsProvider" ref="credentialProvider"/>
+        </bean>
+
+        <!-- Rest template for Spring 3.1. Used HttpClientFactory to make request -->
+        <bean id="restTemplate" name="restTemplate" class="org.springframework.web.client.RestTemplate"
+              autowire-candidate="true">
+            <constructor-arg ref="httpClientFactory"/>
+
+            <property name="messageConverters">
+                <list>
+                    <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+                    </bean>
+                    <bean class="org.springframework.http.converter.FormHttpMessageConverter"/>
+                    <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
+                </list>
+            </property>
+        </bean>
+    </beans>
+</beans>

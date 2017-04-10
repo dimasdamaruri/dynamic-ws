@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<inet:Scheduler xmlns:inet="http://www.inetsoftware.de" password="001AD4839EDC51F71F3166B9F40133003A13DDF08ED75CF60E286FAEE8A5D3F3C1" logfile="" enabled="true" loglevel="3" activated="false" xml_version="1.0">
+  <useractions>
+  </useractions>
+  <userproperties>
+  </userproperties>
+  <options>
+    <option name="pop3host" value="&#60;pop3host&#62;"/>
+    <option name="smtphost" value="&#60;smtphost&#62;"/>
+    <option name="maxworker" value="5"/>
+    <option name="pop3port" value="110"/>
+    <option name="user" value="&#60;user&#62;"/>
+    <option name="smtpport" value="25"/>
+    <option name="sender" value="&#60;sender&#62;"/>
+    <option name="propertieschecker" value=""/>
+    <option name="emailauth" value="0"/>
+    <option name="password" value="00C405AE5EE0C213A12E32F811A581E6E1CE0F9212F1D013A5362FEE4BF9E9E4E6"/>
+  </options>
+  <tasks>
+  </tasks>
+</inet:Scheduler>
